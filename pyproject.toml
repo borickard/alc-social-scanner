@@ -1,0 +1,26 @@
+[project]
+name = "alc-social-scanner"
+version = "0.1.0"
+description = "Proof-of-concept scanner that codes alcohol-related content in TikTok screen recordings for academic research."
+requires-python = ">=3.11"
+dependencies = [
+    "google-genai>=0.3.0",
+    "openai-whisper>=20240930",
+    "scenedetect[opencv]>=0.6.4",
+    "ffmpeg-python>=0.2.0",
+    "pydantic>=2.7",
+    "python-dotenv>=1.0.1",
+    "gradio>=4.44",
+    "pandas>=2.2",
+    "tenacity>=8.5",
+]
+
+[project.scripts]
+alc-scan = "scanner.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
