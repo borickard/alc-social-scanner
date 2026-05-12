@@ -53,7 +53,7 @@ def run_pipeline(
     video_path: Path,
     out_dir: Path,
     whisper_model: str = "small",
-    gemini_model: str = "gemini-2.0-flash",
+    gemini_model: str = "gemini-2.5-flash",
     keep_video: bool = False,
     progress: Optional[ProgressCb] = None,
 ) -> tuple[Path, Path, pd.DataFrame]:

@@ -13,10 +13,18 @@ import time
 from pathlib import Path
 
 from google import genai
+from google.genai import errors as genai_errors
 from google.genai import types
-from tenacity import retry, stop_after_attempt, wait_exponential
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
 from .schema import VideoCoding
+
+
+def _is_transient(exc: BaseException) -> bool:
+    """Retry only on transient failures (network blips, 5xx). Skip 4xx — quota/auth/etc. won't fix themselves."""
+    if isinstance(exc, genai_errors.ClientError):
+        return False
+    return True
 
 log = logging.getLogger(__name__)
 
@@ -73,12 +81,16 @@ def _wait_for_file_active(client: genai.Client, file_name: str, timeout_sec: int
     raise TimeoutError(f"Gemini file did not become ACTIVE within {timeout_sec}s")
 
 
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(min=2, max=16))
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(min=2, max=16),
+    retry=retry_if_exception(_is_transient),
+)
 def analyze_segment(
     clip_path: Path,
     transcript: str,
     audio_language: str | None,
-    model: str = "gemini-2.0-flash",
+    model: str = "gemini-2.5-flash",
 ) -> VideoCoding:
     """Upload the clip, ask Gemini to fill in VideoCoding, return the parsed row."""
     client = _client()

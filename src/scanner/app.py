@@ -81,8 +81,13 @@ def build_ui() -> gr.Blocks:
                     label="Whisper model",
                 )
                 gemini_choice = gr.Dropdown(
-                    choices=["gemini-2.0-flash", "gemini-2.5-flash", "gemini-2.5-pro"],
-                    value="gemini-2.0-flash",
+                    choices=[
+                        "gemini-2.5-flash",
+                        "gemini-2.5-flash-lite",
+                        "gemini-2.5-pro",
+                        "gemini-2.0-flash",
+                    ],
+                    value="gemini-2.5-flash",
                     label="Gemini model",
                 )
                 run_btn = gr.Button("Scan", variant="primary")

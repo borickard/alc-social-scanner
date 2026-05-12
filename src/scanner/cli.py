@@ -23,7 +23,7 @@ def main(argv: list[str] | None = None) -> int:
         help="Output directory for CSV/JSON (default: ./results)",
     )
     parser.add_argument("--whisper-model", default="small", help="Whisper model size")
-    parser.add_argument("--gemini-model", default="gemini-2.0-flash", help="Gemini model name")
+    parser.add_argument("--gemini-model", default="gemini-2.5-flash", help="Gemini model name")
     parser.add_argument(
         "--keep-video",
         action="store_true",
