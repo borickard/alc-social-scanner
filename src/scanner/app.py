@@ -81,12 +81,14 @@ def _scan(video_file, whisper_model, gemini_model):
         yield state.status, table, csv_path, json_path
 
 
+CSS = """
+#scan-table { font-size: 13px; }
+#scan-table table { table-layout: auto; }
+"""
+
+
 def build_ui() -> gr.Blocks:
-    css = """
-    #scan-table { font-size: 13px; }
-    #scan-table table { table-layout: auto; }
-    """
-    with gr.Blocks(title="Alcohol Social Scanner — POC", css=css) as demo:
+    with gr.Blocks(title="Alcohol Social Scanner — POC") as demo:
         gr.Markdown(
             "# Alcohol Social Scanner — POC\n"
             "Upload a TikTok screen recording. Output: a coded row per video "
@@ -123,7 +125,6 @@ def build_ui() -> gr.Blocks:
                 status_out = gr.Textbox(
                     label="Status",
                     interactive=False,
-                    show_copy_button=False,
                     lines=1,
                 )
 
@@ -149,7 +150,7 @@ def build_ui() -> gr.Blocks:
 
 def main() -> None:
     demo = build_ui()
-    demo.queue().launch()
+    demo.queue().launch(css=CSS)
 
 
 if __name__ == "__main__":
