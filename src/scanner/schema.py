@@ -83,6 +83,19 @@ class VideoCoding(BaseModel):
     sponsored_evidence: List[str] = Field(default_factory=list)
     caption_text: str = ""
     hashtags: List[str] = Field(default_factory=list)
+    username: Optional[str] = Field(
+        default=None,
+        description="TikTok handle as displayed (e.g. '@obliviondrums'). Null if not visible.",
+    )
+    display_name: Optional[str] = Field(
+        default=None, description="Display name shown above the handle, if different."
+    )
+    likes: Optional[int] = Field(
+        default=None, description="Like count (interpret K=1000, M=1000000)."
+    )
+    comments: Optional[int] = Field(default=None, description="Comment count.")
+    bookmarks: Optional[int] = Field(default=None, description="Bookmark / save count.")
+    shares: Optional[int] = Field(default=None, description="Share count.")
     notes: str = ""
     confidence: float = Field(default=0.0, ge=0.0, le=1.0)
 

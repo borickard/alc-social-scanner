@@ -7,7 +7,7 @@ import logging
 import sys
 from pathlib import Path
 
-from .pipeline import run_pipeline
+from .pipeline import iter_pipeline
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -41,16 +41,20 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Video not found: {args.video}", file=sys.stderr)
         return 2
 
-    csv_path, json_path, df = run_pipeline(
+    final = None
+    for state in iter_pipeline(
         video_path=args.video,
         out_dir=args.out,
         whisper_model=args.whisper_model,
         gemini_model=args.gemini_model,
         keep_video=args.keep_video,
-        progress=lambda m: print(m, flush=True),
-    )
-    print(f"\nWrote {csv_path} ({len(df)} row(s))")
-    print(f"Wrote {json_path}")
+    ):
+        print(state.status, flush=True)
+        final = state
+
+    assert final is not None
+    print(f"\nWrote {final.csv_path} ({len(final.records)} row(s))")
+    print(f"Wrote {final.json_path}")
     return 0
 
 

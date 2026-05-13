@@ -22,6 +22,12 @@ Variables produced per detected TikTok video. Categorical variables use fixed en
 | `sponsored_evidence` | list[str] | e.g. `"#ad"`, `"Paid partnership label"`, `"discount code"` |
 | `caption_text` | str | Verbatim on-screen caption |
 | `hashtags` | list[str] | Extracted from caption |
+| `username` | str? | TikTok handle as displayed (e.g. `@obliviondrums`). Null if not visible. |
+| `display_name` | str? | Display name shown above the handle, if different. |
+| `likes` | int? | Like count. Model converts TikTok's "1.2K" / "3.4M" to a plain integer. |
+| `comments` | int? | Comment count. |
+| `bookmarks` | int? | Bookmark / save count. |
+| `shares` | int? | Share count. |
 | `transcript` | str | Whisper transcript |
 | `notes` | str | Model's free-text rationale |
 | `confidence` | float | 0–1, model's self-assessed confidence |

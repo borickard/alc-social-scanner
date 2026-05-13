@@ -46,6 +46,9 @@ Specific guidance:
 - caption_language: ISO 639-1 of any on-screen text. Null if no readable text.
 - caption_text: verbatim main caption text. Hashtags only in hashtags[].
 - people_count: rough count of distinct people visible. 0 if none.
+- username: the @handle displayed on the video (usually bottom-left, prefixed with "@"). Include the leading @. Null if not visible.
+- display_name: the larger display name shown above or next to the handle, if it differs from the handle. Null otherwise.
+- likes / comments / bookmarks / shares: the engagement counts shown on the right-hand side of the TikTok UI (heart / speech bubble / bookmark / arrow icons). Convert TikTok's abbreviated format to a plain integer: "8,262" -> 8262, "1.2K" -> 1200, "3.4M" -> 3400000, "500" -> 500. Null if a count is not visible.
 - confidence: your overall confidence in this coding row, 0–1.
 - notes: 1–3 sentences of rationale, citing what you observed.
 """
