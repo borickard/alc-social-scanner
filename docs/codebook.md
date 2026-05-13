@@ -29,6 +29,7 @@ Variables produced per detected TikTok video. Categorical variables use fixed en
 | `bookmarks` | int? | Bookmark / save count. |
 | `shares` | int? | Share count. |
 | `transcript` | str | Whisper transcript |
+| `thumbnail_path` | str? | Absolute path to a JPEG still of the segment (saved alongside the CSV/JSON). Used by the UI to render a preview per row. Delete the `thumbnails/` folder if you don't want to retain stills. |
 | `notes` | str | Model's free-text rationale |
 | `confidence` | float | 0–1, model's self-assessed confidence |
 | `model_version` | str | e.g. `gemini-2.0-flash` |

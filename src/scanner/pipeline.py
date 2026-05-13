@@ -21,7 +21,7 @@ from dotenv import load_dotenv
 from . import PROMPT_VERSION
 from .analyze import analyze_segment
 from .schema import VideoRecord
-from .segment import segment_recording
+from .segment import extract_thumbnail, segment_recording
 from .transcribe import transcribe_segment
 
 log = logging.getLogger(__name__)
@@ -77,6 +77,8 @@ def iter_pipeline(
     work_root = Path(tempfile.mkdtemp(prefix="alcscan_"))
     log.info("Working in %s", work_root)
 
+    thumb_dir = out_dir / "thumbnails"
+
     try:
         yield PipelineState(status="Detecting TikTok segments…")
         segments = segment_recording(video_path, work_root / "segments")
@@ -85,6 +87,15 @@ def iter_pipeline(
 
         records: List[VideoRecord] = []
         for seg in segments:
+            thumb_path = thumb_dir / f"segment_{seg.index:02d}.jpg"
+            try:
+                # Grab a frame ~1s in to skip the swipe transition.
+                offset = min(1.0, max(0.0, seg.duration_sec * 0.25))
+                extract_thumbnail(seg.path, thumb_path, at_sec=offset)
+            except Exception as e:
+                log.warning("Thumbnail extraction failed for segment %d: %s", seg.index, e)
+                thumb_path = None
+
             yield PipelineState(
                 status=f"[{seg.index}/{n}] Transcribing ({seg.duration_sec:.1f}s)…",
                 records=list(records),
@@ -110,6 +121,7 @@ def iter_pipeline(
                     duration_sec=round(seg.duration_sec, 3),
                     audio_language=transcript.language,
                     transcript=transcript.text,
+                    thumbnail_path=str(thumb_path) if thumb_path else None,
                     model_version=gemini_model,
                     prompt_version=PROMPT_VERSION,
                     processed_at=_now_iso(),

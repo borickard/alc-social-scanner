@@ -109,6 +109,7 @@ class VideoRecord(VideoCoding):
     duration_sec: float
     audio_language: Optional[str] = None
     transcript: str = ""
+    thumbnail_path: Optional[str] = None
     model_version: str
     prompt_version: str
     processed_at: str

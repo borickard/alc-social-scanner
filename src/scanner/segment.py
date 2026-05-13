@@ -43,6 +43,31 @@ def detect_scene_boundaries(video_path: Path, threshold: float = 27.0) -> List[t
     return [(s[0].get_seconds(), s[1].get_seconds()) for s in scenes]
 
 
+def extract_thumbnail(
+    clip: Path, dst: Path, at_sec: float = 1.0, height: int = 180
+) -> None:
+    """Save a single-frame JPEG thumbnail from the clip. Caller picks the path."""
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    cmd = [
+        "ffmpeg",
+        "-y",
+        "-loglevel",
+        "error",
+        "-ss",
+        f"{at_sec:.3f}",
+        "-i",
+        str(clip),
+        "-frames:v",
+        "1",
+        "-vf",
+        f"scale=-2:{height}",
+        "-q:v",
+        "4",
+        str(dst),
+    ]
+    subprocess.run(cmd, check=True)
+
+
 def _cut_clip(src: Path, dst: Path, start: float, end: float) -> None:
     """Cut [start, end) out of src into dst using stream copy (fast, no re-encode)."""
     duration = end - start
