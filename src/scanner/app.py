@@ -89,7 +89,7 @@ def build_ui() -> gr.Blocks:
     with gr.Blocks(title="Alcohol Social Scanner — POC", css=css) as demo:
         gr.Markdown(
             "# Alcohol Social Scanner — POC\n"
-            "Upload a TikTok screen recording (≤ 5 videos). Output: a coded row per video "
+            "Upload a TikTok screen recording. Output: a coded row per video "
             "covering alcohol presence, type, brands, framing, sponsorship, language, handle, "
             "and engagement. The source video is deleted after processing."
         )

@@ -17,7 +17,7 @@ from scenedetect import ContentDetector, SceneManager, open_video
 
 log = logging.getLogger(__name__)
 
-MAX_SEGMENTS = 5
+MAX_SEGMENTS = 100
 MIN_SEGMENT_SECONDS = 1.5
 
 

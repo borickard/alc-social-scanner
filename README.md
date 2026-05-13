@@ -4,7 +4,7 @@ Proof-of-concept research tool for the Karolinska Institutet. Accepts a screen r
 
 ## Status
 
-POC scope: handle a single screen recording containing up to 5 TikTok videos. Coding categories follow a fixed schema (see `docs/codebook.md`).
+POC scope: process a single screen recording into a per-video coded dataset. Coding categories follow a fixed schema (see `docs/codebook.md`).
 
 ## How it works
 
